@@ -3,11 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Bibel Premium v1.1.1</title>
+<title>Bibel Premium v1.1.9</title>
 
 <style>
 :root { --gold: #D4AF37; --emerald: #064e3b; --dark: #000; }
-
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; user-select: none; }
 
 body {
@@ -30,9 +29,7 @@ body {
 }
 
 header { text-align: center; margin-bottom: 5px; }
-
 .version-tag { font-size: 0.6rem; opacity: 0.6; letter-spacing: 2px; }
-
 h1 { margin: 2px 0; font-size: 1.6rem; letter-spacing: 3px; }
 
 .divider {
@@ -171,7 +168,7 @@ footer {
 <div class="app-container">
 
 <header>
-<div class="version-tag">Premium Edition | Version 1.1.1</div>
+<div class="version-tag">Premium Edition | Version 1.1.9</div>
 <h1>Bibel</h1>
 <div class="divider"></div>
 </header>
@@ -185,8 +182,8 @@ footer {
 <button class="premium-btn" onclick="setCat('Offenbarung')">Offenbarung</button>
 </div>
 
-<div class="flashcard" onclick="speak()">
-<div class="cat-badge" id="cat-display">HOME</div>
+<div class="flashcard" onclick="next()">
+<div class="cat-badge" id="cat-display"></div>
 <div id="phrase-main"></div>
 <div id="phrase-sub"></div>
 <div id="phrase-extra"></div>
@@ -201,7 +198,7 @@ footer {
 
 <div class="bottom-nav">
 <div class="footer-btn" onclick="setCat('Home')">Home</div>
-<div class="footer-btn" onclick="setCat('Vokabeln')">Vokabeln</div>
+<div class="footer-btn" onclick="setCat('Begriffe')">Begriffe</div>
 </div>
 
 <footer>(c) 2026 Bibel Premium App</footer>
@@ -211,154 +208,60 @@ footer {
 <script>
 const data = {
 
+/* Inhalt unverändert wie 1.1.8 – nur Vokabeln umbenannt */
+
 Home: [
-{
-main: "Willkommen zur Bibel",
-sub: "Überblick",
-extra: "Die Bibel ist die Heilige Schrift des Christentums und besteht aus Altem und Neuem Testament."
-},
-{
-main: "Aufbau der Bibel",
-sub: "Struktur",
-extra: "Die evangelische Bibel enthält 66 Bücher: 39 im Alten Testament und 27 im Neuen Testament."
-},
-{
-main: "Zentrale Bücher",
-sub: "Kerntexte",
-extra: "Genesis, Psalmen, Jesaja, Matthäus, Johannes und Offenbarung gehören zu den bekanntesten Büchern."
-}
+{ main:"Willkommen zur Bibel", sub:"Überblick", extra:"Die Bibel ist die Heilige Schrift des Christentums und besteht aus Altem und Neuem Testament."},
+{ main:"Aufbau der Bibel", sub:"Struktur", extra:"Die evangelische Bibel enthält 66 Bücher: 39 im Alten Testament und 27 im Neuen Testament."},
+{ main:"Zentrale Bücher", sub:"Kerntexte", extra:"Genesis, Psalmen, Jesaja, Matthäus, Johannes und Offenbarung gehören zu den bekanntesten Büchern."}
 ],
 
 BibelAllgemein: [
-{
-main: "Bedeutung des Wortes Bibel",
-sub: "Begriff",
-extra: "Vom griechischen 'Biblia' – Bücher. Eine Sammlung heiliger Schriften."
-},
-{
-main: "Entstehungszeit",
-sub: "Historischer Rahmen",
-extra: "Entstanden über ca. 1000 Jahre zwischen 1000 v. Chr. und 100 n. Chr."
-},
-{
-main: "Zentrale Botschaft",
-sub: "Thema",
-extra: "Gottes Beziehung zum Menschen: Schöpfung, Bund, Erlösung und Hoffnung."
-}
+{ main:"Bedeutung des Wortes Bibel", sub:"Begriff", extra:"Vom griechischen 'Biblia' – Bücher. Eine Sammlung heiliger Schriften."},
+{ main:"Entstehungszeit", sub:"Historischer Rahmen", extra:"Entstanden über ca. 1000 Jahre zwischen 1000 v. Chr. und 100 n. Chr."},
+{ main:"Zentrale Botschaft", sub:"Thema", extra:"Gottes Beziehung zum Menschen: Schöpfung, Bund, Erlösung und Hoffnung."}
 ],
 
 AT: [
-{
-main: "Das Alte Testament",
-sub: "Grundlage",
-extra: "Geschichte Israels und Vorbereitung auf den Messias."
-},
-{
-main: "Die fünf Bücher Mose",
-sub: "Tora",
-extra: "Genesis, Exodus, Levitikus, Numeri und Deuteronomium."
-},
-{
-main: "Propheten",
-sub: "Mahnung und Hoffnung",
-extra: "Jesaja, Jeremia und andere riefen zur Umkehr."
-}
+{ main:"Das Alte Testament", sub:"Grundlage", extra:"Geschichte Israels und Vorbereitung auf den Messias."},
+{ main:"Die fünf Bücher Mose", sub:"Tora", extra:"Genesis, Exodus, Levitikus, Numeri und Deuteronomium."},
+{ main:"Propheten", sub:"Mahnung und Hoffnung", extra:"Jesaja, Jeremia und andere riefen zur Umkehr."}
 ],
 
 NT: [
-{
-main: "Das Neue Testament",
-sub: "Erfüllung",
-extra: "Berichtet vom Leben Jesu und der frühen Kirche."
-},
-{
-main: "Die Evangelien",
-sub: "Matthäus, Markus, Lukas, Johannes",
-extra: "Leben, Tod und Auferstehung Jesu."
-},
-{
-main: "Paulusbriefe",
-sub: "Theologie",
-extra: "Erklärung von Gnade, Liebe und Glauben."
-}
+{ main:"Das Neue Testament", sub:"Erfüllung", extra:"Berichtet vom Leben Jesu und der frühen Kirche."},
+{ main:"Die Evangelien", sub:"Matthäus, Markus, Lukas, Johannes", extra:"Leben, Tod und Auferstehung Jesu."},
+{ main:"Paulusbriefe", sub:"Theologie", extra:"Erklärung von Gnade, Liebe und Glauben."}
 ],
 
 Genesis: [
-{
-main: "Schöpfung",
-sub: "Genesis 1",
-extra: "Gott erschafft Himmel und Erde."
-},
-{
-main: "Sündenfall",
-sub: "Genesis 3",
-extra: "Der Mensch überschreitet Gottes Gebot."
-},
-{
-main: "Abraham",
-sub: "Genesis 12",
-extra: "Beginn des Bundesvolkes."
-}
+{ main:"Schöpfung", sub:"Genesis 1", extra:"Gott erschafft Himmel und Erde."},
+{ main:"Sündenfall", sub:"Genesis 3", extra:"Der Mensch überschreitet Gottes Gebot."},
+{ main:"Abraham", sub:"Genesis 12", extra:"Beginn des Bundesvolkes."}
 ],
 
 Psalme: [
-{
-main: "Psalm 23",
-sub: "Vertrauen",
-extra: "Der Herr ist mein Hirte."
-},
-{
-main: "Psalm 22",
-sub: "Klage",
-extra: "Ruf aus der Tiefe."
-},
-{
-main: "Psalm 1",
-sub: "Weisheit",
-extra: "Der Gerechte ist wie ein Baum am Wasser."
-}
+{ main:"Psalm 23", sub:"Vertrauen", extra:"Der Herr ist mein Hirte."},
+{ main:"Psalm 22", sub:"Klage", extra:"Ruf aus der Tiefe."},
+{ main:"Psalm 1", sub:"Weisheit", extra:"Der Gerechte ist wie ein Baum am Wasser."}
 ],
 
 Offenbarung: [
-{
-main: "Vision des Johannes",
-sub: "Kapitel 1",
-extra: "Offenbarung Jesu Christi."
-},
-{
-main: "Neues Jerusalem",
-sub: "Kapitel 21",
-extra: "Neuer Himmel und neue Erde."
-},
-{
-main: "Alpha und Omega",
-sub: "Kapitel 22",
-extra: "Christus als Anfang und Ende."
-}
+{ main:"Vision des Johannes", sub:"Kapitel 1", extra:"Offenbarung Jesu Christi."},
+{ main:"Neues Jerusalem", sub:"Kapitel 21", extra:"Neuer Himmel und neue Erde."},
+{ main:"Alpha und Omega", sub:"Kapitel 22", extra:"Christus als Anfang und Ende."}
 ],
 
-Vokabeln: [
-{
-main: "Bund",
-sub: "Begriff",
-extra: "Verhältnis zwischen Gott und Mensch."
-},
-{
-main: "Gnade",
-sub: "Thema",
-extra: "Unverdiente Zuwendung Gottes."
-},
-{
-main: "Erlösung",
-sub: "Heil",
-extra: "Befreiung durch Jesus Christus."
-}
+Begriffe: [
+{ main:"Bund", sub:"Begriff", extra:"Verhältnis zwischen Gott und Mensch."},
+{ main:"Gnade", sub:"Thema", extra:"Unverdiente Zuwendung Gottes."},
+{ main:"Erlösung", sub:"Heil", extra:"Befreiung durch Jesus Christus."}
 ]
 
 };
 
-let current = "Home";
-let idx = 0;
+let current="Home";
+let idx=0;
 
 function setCat(c){ if(!data[c]) return; current=c; idx=0; update(); }
 
@@ -389,3 +292,4 @@ window.onload=update;
 
 </body>
 </html>
+
